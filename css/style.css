@@ -188,6 +188,12 @@ ul {
   width: min(calc(100% - 40px), 1200px);
   transform: translateX(-50%);
   z-index: 1000;
+  transition: top 0.28s ease, width 0.28s ease;
+}
+
+.navbar-container.scrolled {
+  top: 12px;
+  width: min(calc(100% - 72px), 1040px);
 }
 
 .navbar {
@@ -213,7 +219,16 @@ ul {
   transition:
     background-color 0.3s ease,
     border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    border-radius 0.3s ease,
+    min-height 0.3s ease,
+    padding 0.3s ease;
+}
+
+.navbar-container.scrolled .navbar {
+  min-height: calc(var(--navbar-height) - 8px);
+  padding-block: 6px;
+  border-radius: 28px;
 }
 
 body.night-mode .navbar {
@@ -848,8 +863,29 @@ body.night-mode .nav-link.active:visited {
 }
 
 .home-role span {
-  color: var(--primary);
   margin: 0 5px;
+  color: var(--primary);
+}
+
+.home-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 12%;
+}
+
+.home-photo-frame {
+  position: absolute;
+  right: clamp(40px, 8vw, 130px);
+  bottom: clamp(64px, 12vh, 120px);
+  z-index: 1;
+  width: clamp(280px, min(34vw, 70vh), 480px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
 }
 
 .home-actions {
@@ -962,12 +998,6 @@ body.night-mode .experience-inside-education .experience-card {
   border-color: var(--primary);
 }
 
-.home-actions .glass-btn:last-child:hover {
-  color: #ffffff;
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
 /* BUTTONS */
 .glass-btn {
   min-height: 44px;
@@ -1026,24 +1056,6 @@ body.night-mode .experience-inside-education .experience-card {
 
 .home-contact i {
   color: var(--primary);
-}
-
-/* PROFILE IMAGE */
-
-.home-photo {
-  position: absolute;
-  right: clamp(24px, 3vw, 55px);
-  bottom: 0;
-  width: clamp(360px, 42vw, 620px);
-  max-width: 100%;
-  max-height: 82vh;
-  height: auto;
-  object-fit: contain;
-  object-position: bottom center;
-  z-index: 1;
-  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.16));
-  transition: transform 0.3s ease, opacity 0.25s ease;
-  animation: home-enter 1s 0.12s ease both;
 }
 
 @keyframes home-enter {
@@ -1154,6 +1166,12 @@ body.night-mode .experience-inside-education .experience-card {
   margin-bottom: 15px;
   font-size: 42px;
   line-height: 1;
+}
+
+.skill-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .skill-card h3 {
@@ -1808,8 +1826,8 @@ body.night-mode .submit-btn:hover {
 /* FOOTER */
 .footer {
   width: min(calc(100% - 40px), 1200px);
-  min-height: 80px;
-  margin: 20px auto 25px;
+  min-height: 72px;
+  margin: 16px auto 12px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -1922,7 +1940,7 @@ html {
 }
 
 .content-section {
-  padding: clamp(96px, 10vw, 140px) max(var(--side-padding), calc((100vw - var(--content-width)) / 2)) clamp(56px, 7vw, 90px);
+  padding: clamp(96px, 10vw, 140px) max(var(--side-padding), calc((100vw - var(--content-width)) / 2)) clamp(32px, 4vw, 56px);
 }
 
 .section-title {
@@ -1950,9 +1968,9 @@ html {
 
 /* Wide desktop and large laptop */
 @media (min-width: 1440px) {
-  .home-photo {
+  .home-photo-frame {
     right: max(3vw, calc((100vw - 1500px) / 2));
-    width: min(42vw, 660px);
+    width: min(42vw, 660px, 70vh);
   }
 
   .home-content {
@@ -1983,14 +2001,13 @@ html {
     display: inline-flex;
   }
 
-  .home-photo {
+  .home-photo-frame {
     right: 2vw;
-    width: min(48vw, 500px);
-    max-height: 76svh;
+    width: min(40vw, 400px, 70vh);
   }
 
   .home-content {
-    width: min(58%, 600px);
+    width: min(52%, 520px);
   }
 
   .about-stats,
@@ -2012,6 +2029,11 @@ html {
 
   .navbar-container {
     width: calc(100% - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  }
+
+  .navbar-container.scrolled {
+    top: max(8px, env(safe-area-inset-top));
+    width: calc(100% - 36px - env(safe-area-inset-left) - env(safe-area-inset-right));
   }
 
   .navbar {
@@ -2037,7 +2059,7 @@ html {
   }
 
   .content-section {
-    padding: 92px var(--side-padding) 58px;
+    padding: 92px var(--side-padding) 40px;
   }
 
   .home-section {
@@ -2065,17 +2087,14 @@ html {
     font-size: clamp(0.96rem, 4vw, 1.08rem);
   }
 
-  .home-photo {
+  .home-photo-frame {
     position: relative;
     right: auto;
     bottom: auto;
     z-index: 1;
-    width: min(78vw, 390px);
-    max-height: 38svh;
+    width: min(78vw, 38svh, 390px);
     margin: 24px auto 0;
-    object-position: center bottom;
-    opacity: 1;
-    filter: none;
+    flex: 0 0 auto;
   }
 
   .home-actions,
@@ -2184,12 +2203,9 @@ html {
     font-size: clamp(2.2rem, 11.5vw, 2.8rem);
   }
 
-  .home-photo {
-    width: min(82vw, 330px);
-    max-height: 34svh;
+  .home-photo-frame {
+    width: min(82vw, 34svh, 330px);
     margin-top: 18px;
-    opacity: 1;
-    filter: none;
   }
 
   .glass-btn {
@@ -2230,12 +2246,9 @@ html {
     font-size: clamp(2rem, 7vh, 3.5rem);
   }
 
-  .home-photo {
+  .home-photo-frame {
     right: 2vw;
-    width: auto;
-    height: 76svh;
-    max-height: 76dvh;
-    opacity: 0.42;
+    width: min(76svh, 76dvh);
   }
 
   .content-section {
@@ -2252,5 +2265,65 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Viewport-aware hero spacing, including devices with display cutouts. */
+.home-section {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding-top: max(calc(var(--navbar-height) + 32px), calc(env(safe-area-inset-top) + 40px));
+  padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 20px));
+}
+
+/* Clear, consistent calls to action with touch-friendly sizing. */
+.home-actions .glass-btn {
+  min-height: 50px;
+  padding: 12px 22px;
+  border-color: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.home-actions .glass-btn:first-child {
+  color: #ffffff;
+  background: var(--primary);
+}
+
+.home-actions .glass-btn:last-child {
+  background: var(--surface-2);
+}
+
+.home-actions .glass-btn:hover {
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+  transform: translateY(-2px);
+}
+
+.home-actions .glass-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .home-section {
+    padding-top: max(calc(var(--navbar-height) + 50px), calc(env(safe-area-inset-top) + 64px));
+    padding-bottom: max(20px, calc(env(safe-area-inset-bottom) + 18px));
+  }
+
+  .home-actions .glass-btn {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 520px) {
+  .home-section {
+    padding-top: max(calc(var(--navbar-height) + 14px), calc(env(safe-area-inset-top) + 18px));
+    padding-bottom: max(18px, calc(env(safe-area-inset-bottom) + 16px));
   }
 }

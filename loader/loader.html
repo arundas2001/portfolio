@@ -5,20 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/loader.css">
     <!-- favicon -->
-    <link rel="icon" href="assets/logo/logo.png" type="image/png">
+    <link rel="icon" href="../assets/logo/logo.png" type="image/png">
     <title>Loader</title>
 </head>
-<body>
-    <div class="loader">
-        <p>loading</p>
-        <div class="words">
-            <span class="word">buttons</span>
-            <span class="word">forms</span>
-            <span class="word">switches</span>
-            <span class="word">cards</span>
-            <span class="word">buttons</span>
+<body class="standalone-loader">
+    <div class="preloader-content">
+        <img class="loader-logo" src="../assets/logo/logo.png" alt="Arun's DEV Studio">
+        <div class="loader">
+            <p>loading</p>
+            <div class="words">
+                <span class="word">buttons</span>
+                <span class="word">forms</span>
+                <span class="word">switches</span>
+                <span class="word">cards</span>
+                <span class="word">buttons</span>
+            </div>
         </div>
     </div>
+    <div class="loader-progress" id="loaderProgress" role="progressbar" aria-label="Page loading progress"
+        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="loader-progress-value" id="loaderProgressValue">0%</span>
+    </div>
 
+    <script src="../js/main.js" defer></script>
 </body>
 </html>

@@ -15,6 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeToggle = document.getElementById("dn");
     const navLinks = document.querySelectorAll(".nav-link");
     const mobileLinks = document.querySelectorAll(".mobile-menu-link");
+    const navbarContainer = document.querySelector(".navbar-container");
+
+    function updateNavbarScrollState() {
+        if (navbarContainer) {
+            navbarContainer.classList.toggle("scrolled", window.scrollY > 24);
+        }
+    }
+
+    updateNavbarScrollState();
+    window.addEventListener("scroll", updateNavbarScrollState, { passive: true });
 
     /* MOBILE MENU */
     function openMenu() {
@@ -147,17 +157,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* PRELOADER */
     const preloader = document.getElementById("pagePreloader");
+    const loaderProgress = document.getElementById("loaderProgress");
+    const loaderProgressValue = document.getElementById("loaderProgressValue");
+    const loadingStartedAt = performance.now();
+    let progressTimer;
+
+    function setLoaderProgress(progress) {
+        const value = Math.max(0, Math.min(100, Math.round(progress)));
+        if (loaderProgress) loaderProgress.setAttribute("aria-valuenow", String(value));
+        if (loaderProgressValue) loaderProgressValue.textContent = `${value}%`;
+    }
+
+    function updateEstimatedProgress() {
+        const elapsed = performance.now() - loadingStartedAt;
+        const estimate = 100 * (1 - Math.exp(-elapsed / 1800));
+        setLoaderProgress(Math.min(94, estimate));
+    }
 
     function hidePreloader() {
-        if (preloader) {
-            setTimeout(() => preloader.classList.add("loaded"), 400);
-        }
+        window.clearInterval(progressTimer);
+        setLoaderProgress(100);
+        if (preloader) window.setTimeout(() => preloader.classList.add("loaded"), 320);
     }
 
     if (document.readyState === "complete") {
         hidePreloader();
     } else {
-        window.addEventListener("load", hidePreloader);
+        progressTimer = window.setInterval(updateEstimatedProgress, 60);
+        window.addEventListener("load", hidePreloader, { once: true });
     }
 
     /* CONTACT FORM */
